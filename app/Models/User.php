@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Validation\Rules\In;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -42,4 +43,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function community(){
+        return $this->belongsTo(Community::class);
+    }
+
+    public function investments(){
+        return $this->hasMany(Investment::class);
+    }
+
+    public function goals(){
+        return $this->hasMany(Goal::class);
+    }
+
+    public function incomes(){
+        return $this->hasMany(Income::class);
+    }
+
+    public function reports(){
+        return $this->hasMany(Report::class);
+    }
+
+    public function purchases(){
+        return $this->hasMany(Purchase::class);
+    }
 }

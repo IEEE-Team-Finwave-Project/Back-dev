@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rules\In;
@@ -44,27 +46,33 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function community(){
+    public function community(): BelongsTo
+    {
         return $this->belongsTo(Community::class);
     }
 
-    public function investments(){
+    public function investments(): HasMany
+    {
         return $this->hasMany(Investment::class);
     }
 
-    public function goals(){
+    public function goals(): HasMany
+    {
         return $this->hasMany(Goal::class);
     }
 
-    public function incomes(){
+    public function incomes(): HasMany
+    {
         return $this->hasMany(Income::class);
     }
 
-    public function reports(){
+    public function reports(): HasMany
+    {
         return $this->hasMany(Report::class);
     }
 
-    public function purchases(){
+    public function purchases(): HasMany
+    {
         return $this->hasMany(Purchase::class);
     }
 }

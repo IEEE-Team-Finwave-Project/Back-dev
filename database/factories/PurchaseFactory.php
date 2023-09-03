@@ -26,7 +26,7 @@ class purchaseFactory extends Factory
             'image'=>fake()->imageUrl(),
             'user_id'=>User::factory(),
             'category_id'=>Category::factory(),
-            'transaction_id'=>1,
+            'transaction_id'=>Transaction::factory(),
         ];
     }
 }

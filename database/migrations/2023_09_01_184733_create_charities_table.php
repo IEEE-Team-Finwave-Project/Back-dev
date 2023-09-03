@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('charities', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('phone');
+            $table->json('phones');
             $table->text('address');
             $table->string('website');
             $table->timestamps();

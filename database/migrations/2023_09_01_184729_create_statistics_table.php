@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
             $table->double('category_percentage');
+            $table->foreignId('category_id');
+            $table->timestamps();
         });
 
     }

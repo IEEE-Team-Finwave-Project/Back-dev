@@ -12,7 +12,6 @@ use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\StatisticController;
 use App\Http\Controllers\API\TransactionController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Protected Routes
@@ -36,6 +35,7 @@ Route::apiResource('reports', ReportController::class);
 Route::get('statistics', [StatisticController::class,'index']);
 Route::get('statistics/{category}', [StatisticController::class, 'show']);
 Route::get('charities', [CharityController::class, 'index']);
+Route::get('charities/{charity}', [CharityController::class, 'show']);
 Route::post('contact', [ContactController::class, 'store']);
 
 

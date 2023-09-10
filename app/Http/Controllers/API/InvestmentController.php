@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\StoreInvestmentRequest;
+use App\Http\Requests\UpdateInvestmentRequest;
 use App\Http\Resources\InvestmentResource;
 use App\Models\Investment;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -38,7 +39,7 @@ class InvestmentController extends Controller
     {
         return new InvestmentResource($investment);
     }
-    public function update(Investment $investment, StoreInvestmentRequest $request): InvestmentResource
+    public function update(Investment $investment, UpdateInvestmentRequest $request): InvestmentResource
     {
         $data = $request->validated();
 

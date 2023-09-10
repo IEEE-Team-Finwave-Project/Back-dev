@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Database\Factories\categoryFactory;
@@ -17,7 +18,7 @@ class CategoryController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $categories= Category::with('purchases')->get();
+        $categories= Category::with('purchases')->paginate(10);
         return CategoryResource::collection($categories);
     }
     public function store(StoreCategoryRequest $request): CategoryResource
@@ -29,7 +30,7 @@ class CategoryController extends Controller
     {
         return new CategoryResource($category);
     }
-    public function update(Category $category, StoreCategoryRequest $request): CategoryResource
+    public function update(Category $category, UpdateCategoryRequest $request): CategoryResource
     {
         $category->update($request->validated());
         return new CategoryResource($category);

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->text('transaction_content');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('report_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
 

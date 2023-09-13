@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->decimal('total_spending');
-            $table->decimal('total_savings');
-            $table->decimal('current_balance');
+            $table->decimal('total_spending')->nullable();
+            $table->decimal('total_savings')->nullable();
+            $table->decimal('current_balance')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');

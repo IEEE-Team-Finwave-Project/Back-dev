@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\StorePurchaseRequest;
+use App\Http\Requests\UpdatePurchaseRequest;
 use App\Http\Resources\PurchaseResource;
 use App\Models\Purchase;
 use Illuminate\Contracts\Foundation\Application;
@@ -20,7 +21,7 @@ class PurchaseController extends Controller
         $purchases = Purchase::paginate(10);
         return PurchaseResource::collection($purchases)->response();
     }
-    public function store(PurchaseRequest $request): Application|ResponseFactory|Response
+    public function store(StorePurchaseRequest $request): Application|ResponseFactory|Response
     {
         $file = $request->file('image');
         $filename = "No Images Uploaded, If you wanna put your purchase an image so do it now !";
@@ -48,7 +49,26 @@ class PurchaseController extends Controller
         $purchase->delete();
 
         return response()->json(null, 204);
+    }
 
+    public function update(UpdatePurchaseRequest $request, Purchase $purchase): JsonResponse
+    {
+        $file = $request->file('image');
+        $filename = "No Images Uploaded, If you wanna put your purchase an image so do it now !";
+
+        if ($file) {
+            $extension = $file->extension();
+            $filename = uniqid() . '.' . $extension;
+            Storage::disk('public')->putFileAs('PurchasesPhotos', $file, $filename);
+        }
+        $data = $request->all();
+
+        if ($filename) {
+            $data['image'] = $filename;
+        }
+
+        $purchase->update($data);
+        return response()->json(['message' => 'Your Purchase Updated Successfully ! '], 200);
     }
 
 }

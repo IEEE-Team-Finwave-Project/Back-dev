@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         return new UserResource($user);
     }
-  
+
     public function destroy(User $user): JsonResponse
     {
         $user->delete();

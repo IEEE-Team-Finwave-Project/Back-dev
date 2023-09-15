@@ -19,6 +19,7 @@ class updateGoalRequest extends FormRequest
     {
         return [
             'title'=>'string',
+            'description'=>'string',
             'amount_of_money'=>'numeric',
             'money_limit'=>'numeric',
             'user_id'=>'exists:users,id',

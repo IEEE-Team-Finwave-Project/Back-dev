@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreIncomeRequest;
+use App\Http\Requests\UpdateIncomeRequest;
 use App\Http\Resources\IncomeResource;
 use App\Models\Income;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -19,7 +21,7 @@ class IncomeController extends Controller
         return IncomeResource::collection($incomes);
     }
 
-    public function store(Request $request): IncomeResource
+    public function store(StoreIncomeRequest $request): IncomeResource
     {
         $income = Income::create($request->validated());
         return new IncomeResource($income);
@@ -30,7 +32,7 @@ class IncomeController extends Controller
         return new IncomeResource($income);
     }
 
-    public function update(Income $income, Request $request): IncomeResource
+    public function update(Income $income, UpdateIncomeRequest $request): IncomeResource
     {
         $income->update($request->validated());
         return new IncomeResource($income);

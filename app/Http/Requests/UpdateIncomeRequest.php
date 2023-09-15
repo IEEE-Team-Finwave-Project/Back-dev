@@ -19,6 +19,7 @@ class UpdateIncomeRequest extends FormRequest
     {
         return [
             'title'=>'string',
+            'description'=>'string',
             'amount_of_money'=>'numeric',
             'user_id'=>'exists:users,id',
         ];

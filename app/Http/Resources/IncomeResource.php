@@ -13,7 +13,7 @@ class IncomeResource extends JsonResource
             'title'=>$this->title,
             'description'=>$this->description,
             'amount_of_money'=>$this->amount_of_money,
-            'user_id'=>$this->user->name,
+            'user'=>$this->user->name,
         ];
     }
 }

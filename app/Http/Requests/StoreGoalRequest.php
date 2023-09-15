@@ -19,6 +19,7 @@ class StoreGoalRequest extends FormRequest
     {
         return [
             'title'=>'required|string',
+            'description'=>'required|string',
             'amount_of_money'=>'required|numeric',
             'money_limit'=>'required|numeric',
             'user_id'=>'required|exists:users,id',

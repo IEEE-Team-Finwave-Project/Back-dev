@@ -12,16 +12,23 @@ use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\StatisticController;
 use App\Http\Controllers\API\TransactionController;
+use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 //Protected Routes
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', [AuthController::class, 'getUserInfo']);
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('forgot',  [AuthController::class, 'forgot']);
+Route::post('reset', [AuthController::class, 'reset']);
+
 
 Route::apiResource('users', UserController::class)->except('index');
 Route::apiResource('purchases',PurchaseController::class);

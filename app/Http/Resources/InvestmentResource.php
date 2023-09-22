@@ -7,19 +7,17 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvestmentResource extends JsonResource
 {
+
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
-
-        $data['images'] = json_decode($data['images']);
-
         return [
-                'id' => $this->id,
-                'title' => $this->title,
-                'price' => $this->price,
-                'image' => $this->image,
-                'description' => $this->description,
-                'user' => $this->user->name,
-            ] + $data;
+            'id' => $this->id,
+            'title' => $this->title,
+            'price' => $this->price,
+            'description' => $this->description,
+            'user' => $this->user->name,
+            'image' => json_decode($this->image),
+            'videos' => json_decode($this->video),
+            ] ;
     }
 }

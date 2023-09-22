@@ -13,6 +13,9 @@ class Investment extends Model
     protected $guarded = [];
     protected $casts = [
         'image' => 'json',
+        'videos' => 'json',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
     ];
 
     public function user(): BelongsTo

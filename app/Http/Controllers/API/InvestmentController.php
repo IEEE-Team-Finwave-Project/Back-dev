@@ -33,7 +33,17 @@ class InvestmentController extends Controller
                 $imagePaths[] = $path;
             }
 
-            $data['image'] = json_encode($imagePaths); // Store as JSON
+            $data['image'] = json_encode($imagePaths);
+        }
+        if ($request->hasFile('videos')) {
+            $videoPaths = [];
+
+            foreach ($request->file('videos') as $video) {
+                $path = $this->uploadVideo($video);
+                $videoPaths[] = $path;
+            }
+
+            $data['videos'] = json_encode($videoPaths);
         }
 
         $investment = Investment::create($data);
@@ -60,15 +70,6 @@ class InvestmentController extends Controller
         $investment->delete();
         return response(null,Response::HTTP_NO_CONTENT);
     }
-    private function uploadImage($file): string
-    {
-        $uniqueName = uniqid() . '_' . time(); // Generate a unique name
-        $extension = $file->getClientOriginalExtension();
-        $fileName = $uniqueName . '.' . $extension;
-        $file->storeAs('public/investments', $fileName);
-
-        return 'investments/' . $fileName;
-    }
     public function search(Request $request): AnonymousResourceCollection
     {
         $query = $request->input('query');
@@ -78,6 +79,24 @@ class InvestmentController extends Controller
             ->get();
 
         return InvestmentResource::collection($investments);
+    }
+    private function uploadImage($file): string
+    {
+        $uniqueName = uniqid() . '_' . time();
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $uniqueName . '.' . $extension;
+        $file->storeAs('public/investments', $fileName);
+
+        return 'investments/' . $fileName;
+    }
+    private function uploadVideo($file): string
+    {
+        $uniqueName = uniqid() . '_' . time(); // Generate a unique name
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $uniqueName . '.' . $extension;
+        $file->storeAs('public/videos', $fileName);
+
+        return 'videos/' . $fileName;
     }
 
 }

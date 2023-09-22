@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('title');
             $table->decimal('price');
             $table->json('image');
+            $table->json('videos')->nullable();
             $table->text('description');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

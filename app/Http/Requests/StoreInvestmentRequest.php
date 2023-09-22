@@ -19,6 +19,7 @@ class StoreInvestmentRequest extends FormRequest
             'title'=>'required|string',
             'price'=>'required|numeric',
             'image.*'=>'required|file|mimes:jpeg,png,jpg,gif,svg',
+            'videos.*'=>'nullable|file|mimes:mp4,mov,ogg,qt,mkv',
             'description'=>'required',
             'user_id'=>'required|exists:users,id',
         ];

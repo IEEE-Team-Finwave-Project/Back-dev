@@ -9,13 +9,17 @@ class InvestmentResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $data = parent::toArray($request);
+
+        $data['images'] = json_decode($data['images']);
+
         return [
-            'id'=>$this->id,
-            'title'=>$this->title,
-            'price'=>$this->price,
-            'image'=>$this->image,
-            'description'=>$this->description,
-            'user'=>$this->user->name,
-        ];
+                'id' => $this->id,
+                'title' => $this->title,
+                'price' => $this->price,
+                'image' => $this->image,
+                'description' => $this->description,
+                'user' => $this->user->name,
+            ] + $data;
     }
 }

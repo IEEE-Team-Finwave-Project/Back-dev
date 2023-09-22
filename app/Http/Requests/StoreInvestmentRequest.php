@@ -13,14 +13,12 @@ class StoreInvestmentRequest extends FormRequest
     {
         return true;
     }
-
-
     public function rules(): array
     {
         return [
             'title'=>'required|string',
             'price'=>'required|numeric',
-            'image'=>'required|file|mimes:jpeg,png,jpg,gif,svg',
+            'image.*'=>'required|file|mimes:jpeg,png,jpg,gif,svg',
             'description'=>'required',
             'user_id'=>'required|exists:users,id',
         ];

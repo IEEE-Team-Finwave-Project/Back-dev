@@ -2,23 +2,22 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-use App\Models\Purchase;
+use App\Models\Investment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-
-class investmentFactory extends Factory
+class InvestmentFactory extends Factory
 {
+    protected $model = Investment::class;
 
     public function definition(): array
     {
         return [
-            'title'=>fake()->sentence,
-            'price' => fake()->numberBetween(0, 100000) / 100,
-            'image' => fake()->imageUrl(640, 480, 'animals', true),
-            'description' => fake()->text(200),
-            'user_id'=>User::factory()
+            'title' => $this->faker->sentence,
+            'price' => $this->faker->numberBetween(0, 100000) / 100,
+            'image' => json_encode(['key1' => 'value1', 'key2' => 'value2']), // Convert array to JSON
+            'description' => $this->faker->text(200),
+            'user_id' => User::factory(),
         ];
     }
 }

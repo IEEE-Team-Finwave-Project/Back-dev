@@ -9,7 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Investment extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+
+    protected $guarded = [];
+    protected $casts = [
+        'image' => 'json',
+    ];
 
     public function user(): BelongsTo
     {

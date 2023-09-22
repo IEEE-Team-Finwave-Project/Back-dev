@@ -10,6 +10,7 @@ use App\Http\Resources\InvestmentResource;
 use App\Models\Investment;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,16 +22,22 @@ class InvestmentController extends Controller
         $investments = Investment::with('user')->get();
         return InvestmentResource::collection($investments);
     }
-    public function store(StoreInvestmentRequest $request): InvestmentResource
+    public function store(StoreInvestmentRequest $request): JsonResponse
     {
         $data = $request->validated();
-
         if ($request->hasFile('image')) {
-            $data['image'] = $this->uploadImage($request->file('image'));
+            $imagePaths = [];
+
+            foreach ($request->file('image') as $image) {
+                $path = $this->uploadImage($image);
+                $imagePaths[] = $path;
+            }
+
+            $data['image'] = json_encode($imagePaths); // Store as JSON
         }
 
-        $investment=Investment::create($data);
-        return new InvestmentResource($investment);
+        $investment = Investment::create($data);
+        return response()->json($investment, 201);
     }
     public function show(Investment $investment): InvestmentResource
     {
@@ -55,10 +62,12 @@ class InvestmentController extends Controller
     }
     private function uploadImage($file): string
     {
-        $name = 'investments/' . uniqid() . '.' . $file->extension();
-        $file->storePubliclyAs('public', $name);
+        $uniqueName = uniqid() . '_' . time(); // Generate a unique name
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $uniqueName . '.' . $extension;
+        $file->storeAs('public/investments', $fileName);
 
-        return $name;
+        return 'investments/' . $fileName;
     }
     public function search(Request $request): AnonymousResourceCollection
     {

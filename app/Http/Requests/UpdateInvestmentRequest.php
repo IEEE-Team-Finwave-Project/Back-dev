@@ -20,6 +20,8 @@ class UpdateInvestmentRequest extends FormRequest
             'title'=>'string',
             'price'=>'numeric',
             'image'=>'file|mimes:jpeg,png,jpg,gif,svg',
+            'videos'=>'nullable|file|mimes:mp4,mov,ogg,qt,mkv',
+            'description'=>'string',
             'user_id'=>'exists:users,id',
         ];
     }

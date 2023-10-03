@@ -11,6 +11,6 @@ class Charity extends Model
 
     protected $guarded=[];
     protected $casts = [
-        'phones' => 'array'
+        'phones' => 'json'
     ];
 }

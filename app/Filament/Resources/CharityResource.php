@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\CharityResource\Pages;
+use App\Filament\Resources\CharityResource\RelationManagers;
+use App\Models\Charity;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -13,11 +14,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class CharityResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Charity::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-bars-4';
+    protected static ?string $navigationIcon = 'healthicons-f-hiv-ind';
 
     public static function getNavigationBadge(): ?string
     {
@@ -26,12 +27,21 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
+        Section::make('Phones')
+            ->statePath('phones');
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
+                Forms\Components\Textarea::make('phones')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('address')
+                    ->required()
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('website')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -42,19 +52,22 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('website')
                     ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('slug')
+                ->limit(50),
+                Tables\Columns\TextColumn::make('address')
+                ->limit(50),
+                Tables\Columns\TextColumn::make('phones')
                     ->searchable()
-                    ->sortable(),
+                    ->badge(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
-                ])
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -75,9 +88,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListCharities::route('/'),
+            'create' => Pages\CreateCharity::route('/create'),
+            'edit' => Pages\EditCharity::route('/{record}/edit'),
         ];
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GoalResource\Pages;
-use App\Filament\Resources\GoalResource\RelationManagers;
-use App\Models\Goal;
+use App\Filament\Resources\IncomeResource\Pages;
+use App\Filament\Resources\IncomeResource\RelationManagers;
+use App\Models\Income;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,34 +13,29 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class GoalResource extends Resource
+class IncomeResource extends Resource
 {
-    protected static ?string $model = Goal::class;
+    protected static ?string $model = Income::class;
 
-    protected static ?string $navigationIcon = 'govicon-money';
-
+    protected static ?string $navigationIcon = 'phosphor-lock-laminated-bold';
     public static function getNavigationBadge(): ?string
     {
         return static ::getModel()::query()->count();
     }
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make([
-                    Forms\Components\Select::make('user_id')
-                        ->relationship('user', 'name')
-                        ->required(),
+                Forms\Components\Section::make([ Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->required(),
                     Forms\Components\TextInput::make('title')
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('description')
+                        ->required()
                         ->maxLength(65535),
                     Forms\Components\TextInput::make('amount_of_money')
-                        ->required()
-                        ->numeric(),
-                    Forms\Components\TextInput::make('money_limit')
                         ->required()
                         ->numeric(),
                 ])
@@ -55,15 +50,10 @@ class GoalResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('amount_of_money')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('money_limit')
-                    ->numeric()
-                    ->sortable(),
-
             ])
             ->filters([
                 //
@@ -92,9 +82,9 @@ class GoalResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListGoals::route('/'),
-            'create' => Pages\CreateGoal::route('/create'),
-            'edit' => Pages\EditGoal::route('/{record}/edit'),
+            'index' => Pages\ListIncomes::route('/'),
+            'create' => Pages\CreateIncome::route('/create'),
+            'edit' => Pages\EditIncome::route('/{record}/edit'),
         ];
     }
 }

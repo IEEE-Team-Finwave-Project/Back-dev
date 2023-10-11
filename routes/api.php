@@ -34,7 +34,6 @@ Route::apiResource('users', UserController::class)->except('index');
 Route::apiResource('purchases',PurchaseController::class);
 
 Route::get('/investments/search', [InvestmentController::class, 'search']);
-
 Route::apiResource('investments',InvestmentController::class);
 Route::apiResource('incomes', IncomeController::class);
 Route::apiResource('transactions', TransactionController::class);

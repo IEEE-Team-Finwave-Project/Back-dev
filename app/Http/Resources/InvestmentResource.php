@@ -18,6 +18,6 @@ class InvestmentResource extends JsonResource
             'user' => $this->user->name,
             'image' => json_decode($this->image),
             'videos' => json_decode($this->video),
-            ] ;
+        ] ;
     }
 }

@@ -19,7 +19,6 @@ class TransactionFactory extends Factory
         return [
             'transaction_content'=>fake()->text(200),
             'category_id'=>Category::factory(),
-            'report_id'=>Report::factory(),
         ];
     }
 }

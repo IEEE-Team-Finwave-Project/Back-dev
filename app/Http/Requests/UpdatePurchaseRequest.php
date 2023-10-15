@@ -20,7 +20,7 @@ class UpdatePurchaseRequest extends FormRequest
             'user_id'=>'numeric',
             'transaction_id'=>'numeric',
             'quantity'=>'numeric',
-            'image' => 'file|mimes:jpg,jpeg,png',
+            'image.*'=>'file|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
 }

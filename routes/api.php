@@ -31,10 +31,12 @@ Route::post('reset', [AuthController::class, 'reset']);
 
 
 Route::apiResource('users', UserController::class)->except('index');
-Route::apiResource('purchases',PurchaseController::class);
+Route::post('/purchases/{purchase}', [PurchaseController::class, 'update']);
+Route::apiResource('purchases',PurchaseController::class)->except('update');
 
 Route::get('/investments/search', [InvestmentController::class, 'search']);
-Route::apiResource('investments',InvestmentController::class);
+Route::post('/investments/{investment}', [InvestmentController::class, 'update']);
+Route::apiResource('investments',InvestmentController::class)->except('update');
 Route::apiResource('incomes', IncomeController::class);
 Route::apiResource('transactions', TransactionController::class);
 Route::apiResource('goals', GoalController::class);

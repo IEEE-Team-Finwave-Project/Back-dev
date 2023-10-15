@@ -14,7 +14,7 @@ class PurchaseResource extends JsonResource
             'name'=>$this->name,
             'item_price'=>$this->item_price,
             'category' => $this->category->name,
-            'image'=>$this->image,
+            'image'=>json_decode($this->image),
             'quantity'=>$this->quantity,
         ];
     }

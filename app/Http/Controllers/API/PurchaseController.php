@@ -51,24 +51,33 @@ class PurchaseController extends Controller
         return response()->json(null, 204);
     }
 
-    public function update(UpdatePurchaseRequest $request, Purchase $purchase): JsonResponse
+    public function update(Purchase $purchase, UpdatePurchaseRequest $request): JsonResponse
     {
-        $file = $request->file('image');
-        $filename = "No Images Uploaded, If you wanna put your purchase an image so do it now !";
+        $data = $request->validated();
 
-        if ($file) {
-            $extension = $file->extension();
-            $filename = uniqid() . '.' . $extension;
-            Storage::disk('public')->putFileAs('PurchasesPhotos', $file, $filename);
-        }
-        $data = $request->all();
+        if ($request->has('image')) {
+            $imagePaths = [];
 
-        if ($filename) {
-            $data['image'] = $filename;
+            foreach ($data['image'] as $image) {
+                $path = $this->uploadImage($image);
+                $imagePaths[] = $path;
+            }
+
+            $data['image'] = json_encode($imagePaths);
         }
 
         $purchase->update($data);
         return response()->json(['message' => 'Your Purchase Updated Successfully ! '], 200);
+    }
+
+    private function uploadImage($file): string
+    {
+        $uniqueName = uniqid() . '_' . time();
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $uniqueName . '.' . $extension;
+        $file->storeAs('public/purchases', $fileName);
+
+        return 'purchases/' . $fileName;
     }
 
 }

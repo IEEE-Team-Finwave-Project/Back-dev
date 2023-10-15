@@ -53,16 +53,35 @@ class InvestmentController extends Controller
     {
         return new InvestmentResource($investment);
     }
-    public function update(Investment $investment, UpdateInvestmentRequest $request): InvestmentResource
+    public function update(Investment $investment, UpdateInvestmentRequest $request): JsonResponse
     {
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $this->uploadImage($request->file('image'));
+        if ($request->has('image')) {
+            $imagePaths = [];
+
+            foreach ($data['image'] as $image) {
+                $path = $this->uploadImage($image);
+                $imagePaths[] = $path;
+            }
+
+            $data['image'] = json_encode($imagePaths);
+        }
+
+        if ($request->has('videos')) {
+            $videoPaths = [];
+
+            foreach ($data['videos'] as $video) {
+                $path = $this->uploadVideo($video);
+                $videoPaths[] = $path;
+            }
+
+            $data['videos'] = json_encode($videoPaths);
         }
 
         $investment->update($data);
-        return new InvestmentResource($investment);
+
+        return response()->json(['message' => 'Your Investment Updated Successfully ! '], 200);
 
     }
     public function destroy(Investment $investment): Application|Response|ResponseFactory
